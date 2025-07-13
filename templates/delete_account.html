@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Delete MyTube Account</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>Delete Account</h1>
+  <p>Are you sure you want to delete your account, <strong>{{ username }}</strong>?</p>
+
+  <form method="POST">
+    <label>
+    <label class="boxc">
+    <input class="checkbox" type="checkbox" name="tos">
+    <span class="checkmark"></span>
+    <label for="tos">Delete all of my videos</label>
+  </label>
+    </label>
+    <br><br>
+    <button type="submit" style="background-color: red; color: white;" onclick="confirm('Are you sure?')">Delete My Account Forever</button>
+    <br><br>
+    <button onclick="window.location.href='/'" type="button">Cancel</button>
+  </form>
+</body>
+</html>

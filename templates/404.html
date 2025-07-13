@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>We Couldn't Find Shit - MyTube</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3163176186394702"
+     crossorigin="anonymous"></script>
+    <link href="{{ url_for('static', filename='fucku.png') }}" rel="icon" alt="icon">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <h1>MyTube</h1>
+      <nav>
+    {% if current_user.is_authenticated %}
+      <h1>Logged in as <a>{{ current_user.username }}</a></h1>
+      <a href="/logout"><button onclick="return confirm('Are you sure?')">Logout</button></a>
+    {% else %}
+      <a href="/login"><button>Login</button></a>
+      <a href="/register"><button>Register</button></a>
+    {% endif %}
+  </nav>
+    <button onclick="location.href='{{ url_for('index') }}'">Home</button>
+    <button onclick="location.href='{{ url_for('videos') }}'">Videos</button>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <h2>404 - Page Not Found</h2>
+    <p>Sorry, the page you are looking for does not exist.</p>
+    <br>
+    <img src="{{ url_for('static', filename='fucku.png') }}">
+</body>
+<br>
+<br>
+
+  <footer>
+    <section>
+      <br>
+      <p>© 2023-25 MyTube, this guy Labs, FusionCore Corp. All rights reserved.   [MyTube v{{ ver }}]</p>
+    </section>
+  </footer>
+</html>

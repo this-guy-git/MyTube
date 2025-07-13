@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ username }} - MyTube</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='MyTube.png') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3163176186394702"
+     crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='videos-load.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/polyglot/2.2/js/jquery.polyglot.language.switcher.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-file-upload/4.0.11/jquery.uploadfile.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-ajax-uploader/2.6.7/SimpleAjaxUploader.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/10.32.0/js/jquery.fileupload.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-bson/5.4.0/bson.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/forerunnerdb/2.0.24/fdb-all.min.js"></script>
+</head>
+<body>
+  <section>
+    <h1>{{ username }}'s Channel</h1>
+  </section>
+
+  <section>
+    <button onclick="location.href='{{ url_for('index') }}'">Home</button>
+    <button onclick="location.href='{{ url_for('videos') }}'">Videos</button>
+    {% if current_user.username == username %}
+    <button onclick="location.href='{{ username }}/edit'">Edit Channel</button>
+    {% endif %}
+    <nav>
+  </nav>
+  </section>
+  <br>
+  <br>
+  {% if bio %}
+  <p><strong>Bio:</strong><br> {{ bio | nl2br | safe }}</p>
+  {% else %}
+  <p><strong>Bio:</strong><br> This user does not have a bio set.</p>
+{% endif %}
+  {% if  videos|length >= 10 %}
+    <span class="dev-badge-container">
+      <img src="{{ url_for('static', filename='topbadge.png') }}"
+           alt="Top Uploader"
+         style="width:80px; height:80px; display:inline-block; vertical-align: middle;">
+      <div class="dev-badge-tooltip">
+        <strong>Top Uploader</strong><br>
+        Uploaded 10 or more videos to MyTube.
+      </div>
+    </span>
+    {% endif %}
+    {% if  videos|length <= 0 %}
+    <span class="dev-badge-container">
+      <img src="{{ url_for('static', filename='newbadge.png') }}"
+           alt="Top Uploader"
+         style="width:80px; height:80px; display:inline-block; vertical-align: middle;">
+      <div class="dev-badge-tooltip">
+        <strong>Noob</strong><br>
+        Uploaded 0 videos.
+      </div>
+    </span>
+    {% endif %}
+  {% if bio %}
+    <span class="dev-badge-container">
+      <img src="{{ url_for('static', filename='paintbadge.png') }}"
+           alt="Custom Channel"
+         style="width:80px; height:80px; display:inline-block; vertical-align: middle;">
+      <div class="dev-badge-tooltip">
+        <strong>Custom Channel</strong><br>
+        This user has customized their channel.
+      </div>
+    </span>
+        {% endif %}
+{% if username in DEV_USERS %}
+  <span class="dev-badge-container">
+    <img src="{{ url_for('static', filename='MyTube.png') }}"
+         alt="MyTube Dev"
+         style="width:80px; height:80px; vertical-align:middle; margin-left:4px;">
+    <div class="dev-badge-tooltip">
+      <strong>MyTube Dev</strong><br>
+      This user is a developer for MyTube.
+    </div>
+  </span>
+      {% endif %}
+{% if username in SOG_USERS %}
+  <span class="dev-badge-container">
+    <img src="{{ url_for('static', filename='sogbadge.png') }}"
+         alt="Super OG User"
+         style="width:80px; height:80px; display:inline-block; vertical-align: middle;">
+    <div class="dev-badge-tooltip">
+      <strong>Super OG User</strong><br>
+      This user has been on MyTube since 2023.
+    </div>
+  </span>
+      {% endif %}
+{% if username in OG_USERS %}
+  <span class="dev-badge-container">
+    <img src="{{ url_for('static', filename='ogbadge.png') }}"
+         alt="OG User"
+         style="width:80px; height:80px; display:inline-block; vertical-align: middle;">
+    <div class="dev-badge-tooltip">
+      <strong>OG User</strong><br>
+      This user has been on MyTube since August 2025.
+    </div>
+  </span>
+{% endif %}
+  <hr>
+  
+  {% if videos %}
+    {% for video in videos %}
+      <div style="margin-bottom: 20px;">
+        {% if video.taken_down %}
+            <h3>[This video was taken down] - {{ video.title }}</h3>
+            <img src="{{ url_for('static', filename='Removed.png') }}" alt="Removed" style="max-width: 100%;height: 200px;">
+        {% else %}
+            <h3><a href="/video/{{ video.html_filename }}">{{ video.title }}</a></h3>
+            <video width="320" height="240" style="max-width: 320px;width: 100%;display: block;margin: 0 auto;max-height: 240px;height: 100%;" controls>
+                <source src="{{ url_for('uploaded_file', filename=video.filename) }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            {% if current_user.is_authenticated and current_user.username == username %}
+                <form method="POST" action="{{ url_for('delete_video') }}" style="display:inline;">
+                  <input type="hidden" name="html_filename" value="{{ video.html_filename }}">
+                  <button type="submit" onclick="return confirm('Are you sure you want to delete this video?')">Delete Video</button>
+                </form>
+            {% endif %}
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>This user hasn't uploaded any videos yet.</p>
+  {% endif %}
+</body>
+</html>

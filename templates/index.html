@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MyTube</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='MyTube.png') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3163176186394702"
+     crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='videos-load.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/polyglot/2.2/js/jquery.polyglot.language.switcher.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-file-upload/4.0.11/jquery.uploadfile.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-ajax-uploader/2.6.7/SimpleAjaxUploader.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/10.32.0/js/jquery.fileupload.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-bson/5.4.0/bson.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/forerunnerdb/2.0.24/fdb-all.min.js"></script>
+</head>
+<body>
+  <section>
+    <h1>MyTube</h1>
+  </section>
+
+  <section>
+    <p>Discover and share videos with the world.</p>
+  </section>
+      <section>
+      <p>Contact Us: <a href="mailto:mytube@f87.site">mytube@f87.site</a></p>
+    </section>
+
+  <section>
+    {% if current_user.is_authenticated %}
+      <p style="font-size: 20px;">Logged in as: <a href="/channel/{{ current_user.username }}">{{ current_user.username }}</a></p>
+      <a href="/logout"><button onclick="return confirm('Are you sure?')">Logout</button></a>
+      <button onclick="location.href='{{ url_for('delete_account') }}'" class="del">Delete Account</button>
+    {% else %}
+      <a href="/login"><button>Login</button></a>
+      <a href="/register"><button>Register</button></a>
+    {% endif %}
+    {% if current_user.is_authenticated and current_user.role == 'admin' %}
+      <button onclick="location.href='{{ url_for('admin_panel') }}'">Admin Panel</button>
+    {% endif %}
+      <br>
+    <br>
+    <button onclick="location.href='{{ url_for('index') }}'">Home</button>
+    <button onclick="location.href='{{ url_for('videos') }}'">Videos</button>
+    <button onclick="location.href='{{ url_for('tos') }}'">Terms of Service</button>
+    <nav>
+  </nav>
+  </section>
+
+  <section>
+    <h2>Upload a Video</h2>
+    <button id="uploadButton" onclick="location.href='{{ url_for('upload_video') }}'">Upload</button>
+  </section>
+
+<section>
+  <h2>Top Videos</h2>
+  <div id="top-videos">
+    {% for video in top_videos %}
+      <div class="video-block">
+        <div style="border-style: solid;border-radius: 12px;width: 400px;margin: 0 auto;">
+        <h3><a href="/video/{{ video.filename_html }}">{{ video.title }}</a></h3>
+        <p>Uploader: <a href="/channel/{{ video.uploader }}">{{ video.uploader }}</a></p>
+        {% if video.taken_down %}
+        <img src="{{ url_for('static', filename='Removed.png') }}" alt="Removed" style="max-width: 100%;height: 200px;">
+        {% else %}
+        <video width="320" height="240" style="max-width: 320px;width: 100%;display: block;margin: 0 auto;max-height: 240px;height: 100%;" controls>
+          <source src="{{ url_for('uploaded_file', filename=video.filename) }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        {% endif %}
+        </div>
+        <br>
+      </div>
+    {% else %}
+      <p>No videos found.</p>
+    {% endfor %}
+  </div>
+</section>
+<br>
+<br>
+<br>
+<br>
+
+  <footer>
+    <section>
+      <br>
+      <p>© 2023-25 MyTube, this guy Labs, FusionCore Corp. All rights reserved.   [MyTube v{{ ver }}]</p>
+      <button onclick="showModal()" style="position: fixed; bottom: 10px; right: 10px; z-index: 1001;">Patch Notes</button>
+    </section>
+  </footer>
+
+  <script src="{{ url_for('static', filename='videos-load.js') }}" async></script>
+
+<script>
+  const PATCH_NOTES_VERSION = "{{ pnver }}";
+</script>
+<script>
+function showModal() {
+  const modal = document.getElementById("patchNotesModal");
+  modal.classList.add("show");
+}
+
+function closeModal() {
+  const modal = document.getElementById("patchNotesModal");
+  modal.classList.remove("show");
+
+  // Save cookie for current version
+  document.cookie = `seenPatchNotes_${PATCH_NOTES_VERSION}=true; path=/; max-age=31536000`;
+}
+
+function hasSeenCurrentPatchNotes() {
+  return document.cookie.includes(`seenPatchNotes_${PATCH_NOTES_VERSION}=true`);
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  if (!hasSeenCurrentPatchNotes()) {
+    showModal();
+  }
+});
+</script>
+
+
+</body>
+<div id="patchNotesModal" class="modal-overlay">
+  <div class="modal-content">
+    <h2>MyTube v7.4.1 Patch Notes</h2>
+    <ul>
+      <li>Added channel pages</li>
+      <li>Added bio section for channels</li>
+      <li>Added badges for channels</li>
+      <li>Added deleting videos from MyTube</li>
+      <li>Switched to Cloudflare for optimization</li>
+      <li>Added new delete account page</li>
+    </ul>
+    <button onclick="closeModal()">Close</button>
+  </div>
+</div>
+</html>

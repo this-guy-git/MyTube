@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3163176186394702"
+        crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jews.mp4 - MyTube</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='MyTube.png') }}">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <h1>MyTube</h1>
+    <button onclick="location.href='{{ url_for('index') }}'">Home</button>
+    <button onclick="location.href='{{ url_for('videos') }}'">Videos</button>
+    <br>
+    {% if taken_down %}
+        <img src="{{ url_for('static', filename='Removed.png') }}" alt="Removed" style="max-width: 100%;height: 200px">
+    {% else %}
+        <video src="/uploads/jews.mp4" controls></video>
+    {% endif %}
+
+    {% if taken_down %}
+        <h2>This video has been taken down</h2>
+    {% else %}
+        <h2>Jews.mp4</h2>
+    {% endif %}
+    <p class='uploader'>Uploader: TDot</p>
+    <p>Description: an og video from the og mytube uploaded 2023</p>
+</body>
+<br><br>
+
+<footer>
+  <section>
+    <p>© 2023-25 MyTube, this guy Labs, FusionCore Corp. All rights reserved.   [MyTube v{{ ver }}]</p>
+  </section>
+</footer>
+</html>

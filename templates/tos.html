@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MyTube Terms of Service</title>
+    <link href="{{ url_for('static', filename='MyTube.png') }}" rel="icon"  alt="icon">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <h1>MyTube Terms Of Service</h1>
+    
+    <!-- Buttons with Flask's url_for for dynamic links -->
+       <nav>
+    {% if current_user.is_authenticated %}
+      <h1>Logged in as <a>{{ current_user.username }}</a></h1>
+      <a href="/logout"><button onclick="return confirm('Are you sure?')">Logout</button></a>
+    {% else %}
+      <a href="/login"><button>Login</button></a>
+      <a href="/register"><button>Register</button></a>
+    {% endif %}
+  </nav>
+    <button onclick="location.href='{{ url_for('index') }}'">Home</button>
+    <button onclick="location.href='{{ url_for('videos') }}'">Videos</button>
+
+    <h3>Last Updated July 6, 2025</h3>
+
+    <nav>
+        <h2>• Any Type Of Pornography Is Not Allowed</h2>
+        <p>To Keep MyTube Clean, Porn Is Not Tolerated. Child Porn Is Illegal, And You Will Be Banned And Reported To Authorities. Child Porn May Be Legal In Few Countries, But MyTube Is Based In The United States and The Kingdom of Spain, So It's Illegal.</p>
+
+        <h2>• Threatening Real World Harm</h2>
+        <p>Threatening harm Inside Or Outside MyTube Is Not Tolerated. You Will Be Banned, This Is Nothing To Play Around With. The Internet Can Be A Dangerous Place.</p>
+
+        <h2>• Sub4Sub Is Not Tolerated</h2>
+        <p>Sub Botting, Sub4Sub, And Buying Free Subs Is Strikeable.</p>
+
+        <h2>• Hacking Is Not Tolerated</h2>
+        <p>Hacking Is Illegal. For Some People It's Legal, But MyTube Is Based In The United States and The Kingdom of Spain.</p>
+
+        <h2>• Leaking Locations Is Bannable</h2>
+
+        <h2>• Any Videos Of Rape Are Banned. Murder and Kidnap Are Against TOS</h2>
+
+        <h2>• Swearing Is Allowed</h2>
+        <p>The N Word and F slur are allowed if they're not used in an offensive way.</p>
+
+        <h2>• Copyright and Pirated Videos</h2>
+        <p>Copyright and Pirated Videos are A Federal Crime in The United States and Are Not Allowed on MyTube.</p>
+	<br>
+	<p>© 2023-25 MyTube, CrypticSoft, this guy Labs, FusionCore Corp. All rights reserved.</p>
+    </nav>
+
+    <!-- Link to the external JS file -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+<br>
+<br>
+
+  <footer>
+    <section>
+            <br>
+      <p>© 2023-25 MyTube, this guy Labs, FusionCore Corp. All rights reserved.   [MyTube v{{ ver }}]</p>
+    </section>
+  </footer>
+</html>

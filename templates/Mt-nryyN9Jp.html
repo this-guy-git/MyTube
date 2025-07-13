@@ -1,0 +1,32 @@
+
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <title>burger king guy - MyTube</title>
+                <link rel="icon" type="image/png" href="{{ url_for('static', filename='MyTube.png') }}">
+                <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css">
+            </head>
+            <body>
+                <h1>MyTube</h1>
+                <button onclick="location.href='{{ url_for('index') }}'">Home</button>
+                <button onclick="location.href='{{ url_for('videos') }}'">Videos</button>
+                <br>
+                <video src="/uploads/m2-res_480p.mp4" controls></video>
+                <h2>burger king guy</h2>
+                <p class='uploader'>Uploader: this guy</p>
+                <p>Description: the burger king guy that doesnt like black people</p>
+            </body>
+            <br>
+<br>
+
+  <footer>
+    <section>
+      <p>© 2023-25 MyTube, CrypticSoft, this guy Labs, FusionCore Corp. All rights reserved.   [MyTube v{{ ver }}]</p>
+    </section>
+  </footer>
+            </html>
+            <br>
+            <br>
+            

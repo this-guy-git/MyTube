@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3163176186394702"
+     crossorigin="anonymous"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>MyTube - Upload a Video</title>
+  <link rel="icon" href="{{ url_for('static', filename='MyTube.png') }}" alt="icon">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+  <script>
+    function validateFile() {
+      var fileInput = document.getElementById("video");
+      var maxFileSize = 50 * 1024 * 1024; // 40MB in bytes
+      var errorText = document.getElementById("errorText");
+
+      if (fileInput.files.length > 0) {
+        var fileSize = fileInput.files[0].size;
+        if (fileSize > maxFileSize) {
+          errorText.innerText = "Error: File size exceeds the limit (40MB). Please upload a smaller video.";
+          fileInput.value = ''; // Clear the file input
+          return false;
+        } else {
+          errorText.innerText = ''; // Clear any previous error message
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>MyTube</h1>
+  <button onclick="location.href='{{ url_for('index') }}'">Home</button>
+  <button onclick="location.href='{{ url_for('videos') }}'">Videos</button>
+  <nav>
+    {% if current_user.is_authenticated %}
+      <h1>Logged in as <a>{{ current_user.username }}</a></h1>
+      <a href="/logout"><button onclick="return confirm('Are you sure?')">Logout</button></a>
+    {% else %}
+      <a href="/login"><button>Login</button></a>
+      <a href="/register"><button>Register</button></a>
+    {% endif %}
+  </nav>
+  <br>
+  <form action="{{ url_for('upload_video') }}" method="post" enctype="multipart/form-data" onsubmit="return validateFile();">
+    <label for="video">Choose a video (max 40MB):</label>
+    <input style="border: 0px; border-radius: 0px;" type="file" name="video" id="video" accept="video/*" required>
+    <p id="errorText" style="color: red;"></p>
+    <br>
+    <label for="name">Uploader: </label>
+    <label>{{ current_user.username }}</label>
+    <br>
+    <br>
+    <label for="videoName">Video Name:</label>
+    <br>
+    <br>
+    <input type="text" name="videoName" id="videoName" required>
+    <br>
+    <br>
+    <label for="description">Video Description:</label>
+    <br>
+    <br>
+    <textarea name="description" id="description"></textarea>
+    <br>
+    <br>
+    <input type="submit" value="Upload Video">
+  </form>
+</body>
+<br>
+<br>
+
+  <footer>
+    <section>
+            <br>
+      <p>© 2023-25 MyTube, this guy Labs, FusionCore Corp. All rights reserved.   [MyTube v{{ ver }}]</p>
+    </section>
+  </footer>
+</html>

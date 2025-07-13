@@ -1,0 +1,45 @@
+<html>
+<head>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+
+<h1>🛠️ Admin Dashboard</h1>
+
+<section>
+    {% if current_user.is_authenticated %}
+      <p style="font-size: 20px;">Logged in as: <a>{{ current_user.username }}</a></p>
+    {% endif %}
+    <br>
+    <button onclick="location.href='{{ url_for('index') }}'">Home</button>
+    <button onclick="location.href='{{ url_for('videos') }}'">Videos</button>
+    <nav>
+  </nav>
+  </section>
+
+<ul style="list-style:none; padding:0;">
+  {% for video in videos %}
+    <li style="margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px;">
+      <h3>{{ video.video_title }}</h3>
+      <small><strong>{{ video.filename }}</strong></small><br>
+      {% if video.video_src %}
+        <video src="{{ video.video_src }}" width="320" controls muted></video><br>
+      {% else %}
+        <p><em>No video preview available</em></p>
+      {% endif %}
+
+      {% if video.taken_down %}
+        <span style="color:red; font-weight:bold;">[TAKEN DOWN]</span>
+        <form action="/admin/restore/{{ video.filename }}" method="POST" style="display:inline;">
+            <button type="submit" style="background-color:green; color:white;">♻️ Restore</button>
+        </form>
+      {% else %}
+        <form action="/admin/takedown/{{ video.filename }}" method="POST" style="display:inline;">
+            <button type="submit" style="background-color:red; color:white;">🚫 Take Down</button>
+        </form>
+      {% endif %}
+
+    </li>
+  {% endfor %}
+</ul>
+
+</html>

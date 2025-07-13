@@ -1,0 +1,40 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+
+<h2>Register</h2>
+<form method="POST">
+  <input name="username" placeholder="Username" required>
+  <br>
+  <br>
+  <input name="password" type="password" placeholder="Password" required>
+  <br>
+  <br>
+  <label class="boxc">
+    <input class="checkbox" type="checkbox" name="tos" required>
+    <span class="checkmark"></span>
+    <label for="tos">I agree to the<a href="{{ url_for('tos') }}">Terms of Service</a></label>
+  </label>
+  <br>
+  <button type="submit">Register</button>
+</form>
+Already have an account?<a href='{{ url_for('login') }}'>Login</a>
+
+
+<br>
+{% if error %}
+  <p>{{ error }}</p>
+{% endif %}
+<br>
+<br>
+<br>
+
+  <footer>
+    <section>
+      <br>
+      <p>© 2023-25 MyTube, this guy Labs, FusionCore Corp. All rights reserved.   [MyTube v{{ ver }}]</p>
+    </section>
+  </footer>
+</html>
