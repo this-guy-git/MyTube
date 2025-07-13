@@ -16,6 +16,8 @@ HTML files must go in the TEMPLATES folder.
 
 Uploaded videos and video HTML files are auto-assigned a random name to prevent being overwritten, however the chance isn't 0, if you have a better alternative please fork this and submit a pull.
 
+I could not upload the .key, .cer, or .db files as they are PRIVATE and SHOULD NOT be shared!!!
+
 # Contributing
 We will accept any contributions and it will grant you a special Contributor badge on MyTube.
 
