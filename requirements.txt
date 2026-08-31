@@ -1,0 +1,5 @@
+bsf
+flask
+flask_login
+bleach
+werkzeug

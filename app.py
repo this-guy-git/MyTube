@@ -23,7 +23,7 @@ def sanitize(text):
     return bleach.clean(text, tags=ALLOWED_TAGS, strip=True)
 
 DEV_USERS = {'this guy', 'F87', 'TDot', 'thisguy0', 'f87', 'tdot'}
-OG_USERS = {'this guy', 'F87', 'TDot', 'thisguy0', 'f87', 'tdot', 'ChanTanDingo', 'Fosh', 'hello', 'BigNiggaBalls'}
+OG_USERS = {'this guy', 'F87', 'TDot', 'thisguy0', 'f87', 'tdot'}
 SOG_USERS = {'F87', 'TDot', 'f87', 'tdot'}
 
 
@@ -201,7 +201,7 @@ def index():
         taken_down = []
 
     if not os.path.exists(videos_html_path):
-        print("❌ videos.html not found.")
+        print("videos.html not found.")
         return render_template('index.html', top_videos=[])
 
     with open(videos_html_path, 'r', encoding='utf-8') as f:
@@ -221,7 +221,7 @@ def index():
         meta_path = os.path.join(meta_folder, meta_file)
 
         if not os.path.exists(meta_path):
-            print(f"⚠️ Metadata file missing: {meta_path}")
+            print(f"Metadata file missing: {meta_path}")
             continue
 
         with open(meta_path, 'r', encoding='utf-8') as meta_f:
@@ -239,13 +239,13 @@ def index():
                     video_src = video_tag['src']
 
             if not video_src:
-                print(f"⚠️ No <video src> found in {meta_file}")
+                print(f"No <video src> found in {meta_file}")
                 continue
 
             video_filename = os.path.basename(unquote(video_src))
             video_path = os.path.join(uploads_folder, video_filename)
             if not os.path.exists(video_path):
-                print(f"⚠️ Video file missing: {video_filename}")
+                print(f"Video file missing: {video_filename}")
                 continue
 
             uploader = "Unknown"
@@ -339,7 +339,7 @@ def channel_page(username):
 
                             video_filename = os.path.basename(video_src) if video_src else None
 
-                            # ✅ Check takedown
+                            # Check takedown
                             is_taken_down = filename in takedowns
 
                             videos.append({
@@ -416,7 +416,7 @@ def delete_video():
             f.write(str(soup))
 
     except Exception as e:
-        print(f"❌ Failed to update videos.html: {e}")
+        print(f"Failed to update videos.html: {e}")
 
     return redirect(url_for('channel_page', username=current_user.username))
 
@@ -575,20 +575,20 @@ def upload_video():
         if not video_file or not video_name:
             return "Missing video or title", 400
 
-        # 🔀 Generate random filename for the video (to avoid overwrites)
+        # Generate random filename for the video (to avoid overwrites)
         ext = os.path.splitext(video_file.filename)[1]
         video_filename = ''.join(random.choices(string.ascii_letters + string.digits, k=12)) + ext
         video_path = os.path.join(app.config['UPLOAD_FOLDER'], video_filename)
 
-        # 💾 Save video file
+        # Save video file
         video_file.save(video_path)
 
-        # 🧪 Generate random HTML filename for the video page
+        # Generate random HTML filename for the video page
         random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
         html_filename = f"Mt-{random_string}.html"
         video_url = url_for('uploaded_file', filename=video_filename)
 
-        # 🧠 Generate HTML content for the video page
+        # Generate HTML content for the video page
         html_content = f"""<!DOCTYPE html>
 <html>
 <head>
@@ -629,12 +629,12 @@ def upload_video():
 </html>
 """
 
-        # 💾 Save the HTML page
+        # Save the HTML page
         new_template_path = os.path.join(TEMPLATE_FOLDER, html_filename)
         with open(new_template_path, 'w', encoding='utf-8') as file:
             file.write(html_content)
 
-        # 🧩 Update videos.html with the new video link
+        # Update videos.html with the new video link
         try:
             with open(VIDEOS_HTML_PATH, 'r', encoding='utf-8') as file:
                 videos_html = file.read()
@@ -646,7 +646,7 @@ def upload_video():
             with open(VIDEOS_HTML_PATH, 'w', encoding='utf-8') as file:
                 file.write(videos_html)
         except Exception as e:
-            print("❌ Error updating videos.html:", e)
+            print("Error updating videos.html:", e)
 
         return redirect(url_for('videos'))
 
@@ -703,6 +703,7 @@ def nl2br_filter(s):
 
 
 if __name__ == '__main__':
-    context = ('f87.cer', 'f87.key')
-    app.run(ssl_context=context, debug=True, host="0.0.0.0", port=443)
+    context = ('', '')
+#ssl_context=context, 
+    app.run(debug=True, host="0.0.0.0", port=443)
     
