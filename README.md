@@ -1,14 +1,13 @@
 # MyTube
 MyTube from Crypticsoft but rebuilt and betterer!
 
-### This template is for those who want to build their own MyTube on their own server, please do not directly copy as that does not make good competition!
-
 ### If you just want to visit MyTube then go [here](https://mytube.f87.site/).
 
-# Building
-The secret key variable in app.py MUST be changed if you want your users to have safe password hashing.
+ # _**!!!The secret key variable in app.py MUST be changed if you want your users to have safe password hashing!!!**_
 
-Running app.py with Python3 and all of the imports installed should run the site on your/your servers IP.
+Before running the app, make sure to initialize the database with initializedb.py
+
+Running app.py with Python and all of the imports installed should run the site on your/your servers IP.
 
 All static files such as images, CSS, JS, etc. must go in the STATIC folder.
 
